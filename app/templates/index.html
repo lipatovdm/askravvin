@@ -48,7 +48,12 @@
 		</div>
 		<div class="clear"></div>
 		<div class="row result-sect-wrapper" v-bind:class="{ scroll: scrollable}">
-			<div class="col-sm-8 col-sm-offset-2">
+			<div class="donate-wrapper" v-if="results.length > 0">
+					<p>Поддержать проект рублем:</p>
+					<iframe src="https://money.yandex.ru/quickpay/button-widget?targets=%D0%9F%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82&default-sum=100&button-text=14&yamoney-payment-type=on&button-size=s&button-color=orange&successURL=&quickpay=small&account=410014058034141&" width="127" height="25" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
+					<iframe src="https://money.yandex.ru/quickpay/button-widget?targets=%D0%9F%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82&default-sum=100&button-text=14&any-card-payment-type=on&button-size=s&button-color=orange&successURL=&quickpay=small&account=410014058034141&" width="127" height="25" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
+			</div>
+				<div class="col-sm-8 col-sm-offset-2">				
 				<div v-for="result in results" class="row game-card--wrapper">
 					<div class="col-sm-12">
 						<div class="col-sm-12 game-card--item">
@@ -102,7 +107,7 @@
 					query: '',
 					price: ''
 				},
-				baseUrl: 'https://askravvin.herokuapp.com/api/fetch',
+				baseUrl: window.location + 'api/fetch',
 			},
 			methods: {
 				fetchGamePrices: function(){
