@@ -1,169 +1,10 @@
 {% extends "base.html" %}
 {% block body %}
-	<style>
-		*, body, h3{
-			margin: 0;
-			padding: 0;
-			font-family: 'Open Sans'
-		}
-		input, button{
-			border: none;
-			outline: none;
-		}
-		#app{
-			background: #F5F5F5;
-			width: 100%;
-			display: block;
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			text-align: center;
-			height: 100vh;
-			overflow: hidden;
-		}
-		.loader{
-			background: rgba(0,0,0,.8);
-			position: absolute;
-			left: 0;
-			top: 0;
-			height: 100%;
-			z-index: 100;
-
-		}
-		.loader > span{
-			font-size: 32px;
-			color: #fff;
-			font-weight: bold;
-			font-family: 'Comfortaa';
-			position: relative;
-			top: 50%;
-			display: block;
-			transform: translateY(-50%);
-		}
-		.logo{
-			max-height: 80px;
-			margin: 25px auto;
-		}
-		.clear{
-			clear: both;
-		}
-		.scroll{
-			overflow: scroll;	
-		}
-		.text-inp--wrapper{
-			padding-bottom: 25px;
-		}
-		.text-input{
-			padding: 10px 15px;
-			height: 50px;
-			font-size: 14px;
-			line-height: 50px;
-			border-radius: 1px;
-			width: 100%;
-		}
-		select, .text-input{
-			border: solid 1px #757575;
-
-		}
-		.game-card--item, select, .text-input, button{
-			border-radius: 2px;
-		}
-		button{
-			-webkit-appearance:none;
-			background: #388E3C;
-			color: #fff;
-			font-weight: bold;
-			cursor: pointer;
-			height: 50px;
-			font-size: 14px;
-			width: 100%;
-		}
-		select{
-			background: rgba(255,255,255,.99);
-			overflow: hidden;
-			-webkit-appearance:none;
-			padding-left: 10px;
-			border-radius: 1px;
-			outline: none;
-			width: 100%;
-			height: 35px;
-			font-size: 14px;
-		}
-		button:hover{
-			opacity: .8
-		}
-		.search-sect-wrapper{
-			height: auto;
-			overflow: auto;
-			background: #fff;
-			box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-			padding-bottom: 25px;
-			position: relative;
-			z-index: 10;
-		}
-		.result-sect-wrapper{
-			padding: 25px 0;
-			height: 70vh;
-			position: relative;
-		}
-		.game-card--wrapper{
-			text-align: left;
-		}
-		.game-card--item{
-			margin-bottom: 25px;
-			background: #fff;
-			padding: 0px;
-			border-radius: 1px;
-			box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  			transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-		}
-		.game-card--item:hover{
-			box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-		}
-		.image-wrapper{
-			padding: 0px;
-		}
-		.game-title {
-			margin-bottom: 35px;
-			text-align: center;
-			margin-top: 25px;
-			font-family: 'Roboto';
-			color: #484848;
-		}
-		.game-title > h3{
-			font-size: 26px;
-			font-weight: bold;
-		}
-		.price-label{
-			text-align: center;
-			font-weight: 400;
-			font-family: 'Comfortaa'
-		}
-		.price-label > h2{
-			font-size: 22px;
-		}
-		.border-right{
-			border-right: solid 1px #777;
-		}
-		.profit-label{
-			text-align: center;
-			z-index: 2;
-		}
-		.moisha{
-			position: absolute;
-			right: 10px;
-			bottom: 10px;
-			max-width: 100px;
-			transform: rotate(-15deg);
-			opacity: .8;
-			z-index: 1;
-		}
-	</style>
 	<div id="app" class="container-fluid">
 		<div id="loader"></div>
 		<div class="row search-sect-wrapper">
-			<div class="col-sm-12">
-				<img src="http://vignette2.wikia.nocookie.net/logopedia/images/9/9d/Google_logo_white_2015.svg/revision/latest?cb=20150901202125" alt="" class="logo">
+			<div class="col-sm-12 logo-wrapper">
+				<img src="/static/img/jew-logo.png" alt="" class="logo">
 			</div>		
 			<div class="form-wrapper col-sm-8 col-sm-offset-2">
 				<form action="" id="query-form" onsubmit="event.preventDefault();">
@@ -246,16 +87,7 @@
 		  </div>
 		  
 	</div>
-<!-- 		  	<img  alt="">
-
-<img v-bind:src="result.metadata.img" class="img-responsive" v-bind:alt="result.metadata.title">
-
-<span v-if="result.metadata.title">[[ result.metadata.title ]]</span><br>		  	
-<span v-if="result.metadata.title">[[ result.price.current_price.amount ]] [[ result.price.current_price.currency ]]</span><br>
-<span v-if="result.metadata.title">[[ result.price.converted_price.amount ]] [[ result.price.converted_price.currency ]]</span>
-<span v-if="result.metadata.title">[[ result.price.profit_price.amount ]] [[ result.price.profit_price.currency ]]</span> -->
 	<script>
-		// var link = 'http://localhost:5000/api/fetch?r=ru&c=KZT&p=ps4&q=Tekken'
 		var app = new Vue({
 			el: '#app',
 			delimiters: ["[[", "]]"],
@@ -270,7 +102,7 @@
 					query: '',
 					price: ''
 				},
-				baseUrl: 'http://localhost:5000/api/fetch',
+				baseUrl: 'https://askravin.herokuapp.com/api/fetch',
 			},
 			methods: {
 				fetchGamePrices: function(){
