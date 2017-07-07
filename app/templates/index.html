@@ -1,0 +1,303 @@
+{% extends "base.html" %}
+{% block body %}
+	<style>
+		*, body, h3{
+			margin: 0;
+			padding: 0;
+			font-family: 'Open Sans'
+		}
+		input, button{
+			border: none;
+			outline: none;
+		}
+		#app{
+			background: #F5F5F5;
+			width: 100%;
+			display: block;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			text-align: center;
+			height: 100vh;
+			overflow: hidden;
+		}
+		.loader{
+			background: rgba(0,0,0,.8);
+			position: absolute;
+			left: 0;
+			top: 0;
+			height: 100%;
+			z-index: 100;
+
+		}
+		.loader > span{
+			font-size: 32px;
+			color: #fff;
+			font-weight: bold;
+			font-family: 'Comfortaa';
+			position: relative;
+			top: 50%;
+			display: block;
+			transform: translateY(-50%);
+		}
+		.logo{
+			max-height: 80px;
+			margin: 25px auto;
+		}
+		.clear{
+			clear: both;
+		}
+		.scroll{
+			overflow: scroll;	
+		}
+		.text-inp--wrapper{
+			padding-bottom: 25px;
+		}
+		.text-input{
+			padding: 10px 15px;
+			height: 50px;
+			font-size: 14px;
+			line-height: 50px;
+			border-radius: 1px;
+			width: 100%;
+		}
+		select, .text-input{
+			border: solid 1px #757575;
+
+		}
+		.game-card--item, select, .text-input, button{
+			border-radius: 2px;
+		}
+		button{
+			-webkit-appearance:none;
+			background: #388E3C;
+			color: #fff;
+			font-weight: bold;
+			cursor: pointer;
+			height: 50px;
+			font-size: 14px;
+			width: 100%;
+		}
+		select{
+			background: rgba(255,255,255,.99);
+			overflow: hidden;
+			-webkit-appearance:none;
+			padding-left: 10px;
+			border-radius: 1px;
+			outline: none;
+			width: 100%;
+			height: 35px;
+			font-size: 14px;
+		}
+		button:hover{
+			opacity: .8
+		}
+		.search-sect-wrapper{
+			height: auto;
+			overflow: auto;
+			background: #fff;
+			box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+			padding-bottom: 25px;
+			position: relative;
+			z-index: 10;
+		}
+		.result-sect-wrapper{
+			padding: 25px 0;
+			height: 70vh;
+			position: relative;
+		}
+		.game-card--wrapper{
+			text-align: left;
+		}
+		.game-card--item{
+			margin-bottom: 25px;
+			background: #fff;
+			padding: 0px;
+			border-radius: 1px;
+			/*box-shadow: 0px 2px 5px 0px #484848;*/
+			box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  			transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+		}
+		.game-card--item:hover{
+			box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+		}
+		.image-wrapper{
+			padding: 0px;
+		}
+		.game-title {
+			margin-bottom: 35px;
+			text-align: center;
+			margin-top: 25px;
+			font-family: 'Roboto';
+			color: #484848;
+		}
+		.game-title > h3{
+			font-size: 26px;
+			font-weight: bold;
+		}
+		.price-label{
+			text-align: center;
+			font-weight: 400;
+			font-family: 'Comfortaa'
+		}
+		.price-label > h2{
+			font-size: 22px;
+		}
+		.border-right{
+			border-right: solid 1px #777;
+		}
+		.profit-label{
+			text-align: center;
+			z-index: 2;
+		}
+		.moisha{
+			position: absolute;
+			right: 10px;
+			bottom: 10px;
+			max-width: 100px;
+			transform: rotate(-15deg);
+			opacity: .8;
+			z-index: 1;
+		}
+	</style>
+	<div id="app" class="container-fluid">
+		<div id="loader"></div>
+		<div class="row search-sect-wrapper">
+			<div class="col-sm-12">
+				<img src="http://vignette2.wikia.nocookie.net/logopedia/images/9/9d/Google_logo_white_2015.svg/revision/latest?cb=20150901202125" alt="" class="logo">
+			</div>		
+			<div class="form-wrapper col-sm-8 col-sm-offset-2">
+				<form action="" id="query-form" onsubmit="event.preventDefault();">
+					<div class="text-inp--wrapper row">
+						<div class="col-sm-6">
+						<input class="text-input search-main-form title-field" type="text" name="q" placeholder="Название игры" id="query" v-model="params.query">
+						</div>
+						<div class="col-sm-3">
+						<input class="text-input search-main-form price-field" type="text" name="price" placeholder="Твоя цена" id="price" v-model="params.price">
+						</div>
+						<div class="col-sm-3">
+						<button v-on:click="fetchGamePrices">Почем, таки, игры?</button>
+						</div>
+					</div>
+					<div class="clear"></div>
+					<div class="param-wrapper row">
+						<div class="col-sm-4">
+							<select name="region" id="region-select" v-model="params.region">
+								<option value="" disabled="">Выбери Регион</option>
+								<option value="ru">Россия</option>
+							</select>
+						</div>
+						<div class="col-sm-4">
+							<select name="platform" id="platform-select" v-model="params.platform">
+								<option value="" disabled="">Выбери платформу</option>
+								<option value="ps4">Playstation 4</option>
+								<option value="XOne">XBOX ONE</option>
+							</select>
+						</div>	
+						<div class="col-sm-4">
+							<select name="currency" id="currency-select" v-model="params.currency">
+								<option value="" disabled="">Выбери валюту сравнения</option>
+								<option value="KZT">Тенге (KZT)</option>
+								<option value="RUB">Рубль (RUB)</option>
+								<option value="USD">Доллар (USD)</option>
+							</select>
+						</div>					
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="row result-sect-wrapper" v-bind:class="{ scroll: scrollable}">
+			<div class="col-sm-8 col-sm-offset-2">
+				<div v-for="result in results" class="row game-card--wrapper">
+					<div class="col-sm-12">
+						<div class="col-sm-12 game-card--item">
+							<div class="col-sm-3 image-wrapper">
+								<img v-bind:src="result.metadata.img" class=" img-responsive" v-bind:alt="result.metadata.title">			
+							</div>
+							<div class="col-sm-9">
+								<div class="row game-title">
+									<h3>[[ result.metadata.title ]]</h3>
+									
+								</div>
+								<div class="row">
+									<div class="col-sm-4 price-label border-right">
+										<p>Цена в магазине:</p>
+										<h2>[[ result.price.current_price.amount ]] [[ result.price.current_price.currency ]]</h2>
+									</div>
+									<div class="col-sm-4 price-label border-right">
+										<p>Цена в [[ result.price.converted_price.currency ]]:</p>
+										<h2>[[ result.price.converted_price.amount ]] [[ result.price.converted_price.currency ]]</h2>
+									</div>
+									<div class="col-sm-4 price-label profit-label">
+										<p>Выгода в твою пользу:</p>
+										<h2>[[ result.price.profit_price.amount ]] [[ result.price.profit_price.currency ]]</h2>
+									</div>
+									
+								</div>
+							</div>
+						</div>
+						<img src="/static/img/moisha.png" alt="" class="moisha" v-if="result.price.profit_price.amount > 0">
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-12 loader" v-if="loading">
+				<span>Загрузка...</span>
+			</div>
+		  </div>
+		  
+	</div>
+<!-- 		  	<img  alt="">
+
+<img v-bind:src="result.metadata.img" class="img-responsive" v-bind:alt="result.metadata.title">
+
+<span v-if="result.metadata.title">[[ result.metadata.title ]]</span><br>		  	
+<span v-if="result.metadata.title">[[ result.price.current_price.amount ]] [[ result.price.current_price.currency ]]</span><br>
+<span v-if="result.metadata.title">[[ result.price.converted_price.amount ]] [[ result.price.converted_price.currency ]]</span>
+<span v-if="result.metadata.title">[[ result.price.profit_price.amount ]] [[ result.price.profit_price.currency ]]</span> -->
+	<script>
+		// var link = 'http://localhost:5000/api/fetch?r=ru&c=KZT&p=ps4&q=Tekken'
+		var app = new Vue({
+			el: '#app',
+			delimiters: ["[[", "]]"],
+			data: {
+				results: [],
+				loading: false,
+				scrollable: true,
+				params: {
+					region: 'ru',
+					platform: 'ps4',
+					currency: 'KZT',
+					query: '',
+					price: ''
+				},
+				baseUrl: 'http://localhost:5000/api/fetch',
+			},
+			methods: {
+				fetchGamePrices: function(){
+					var self = this
+					var link = self.baseUrl
+					this.loading = true
+					this.scrollable = false
+					form = $('#query-form').serialize();
+					console.log(form);						
+					$.ajax({
+					    type:"GET",
+					    url: link,
+					    data: form,
+					    success: function(data) {
+					            self.results = JSON.parse(data);
+								self.loading = false
+								self.scrollable = true
+					        }, 
+					    error: function(jqXHR, textStatus, errorThrown) {
+					            alert('Error ' + jqXHR.status);
+								self.loading = false
+								
+					        }
+					});
+				}
+			}
+		})
+	</script>
+{% endblock %}
