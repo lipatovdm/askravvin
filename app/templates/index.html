@@ -32,7 +32,6 @@
 							<select name="platform" id="platform-select" v-model="params.platform">
 								<option value="" disabled="">Выбери платформу</option>
 								<option value="ps4">Playstation 4</option>
-								<option value="XOne">XBOX ONE</option>
 							</select>
 						</div>	
 						<div class="col-sm-4">
@@ -93,7 +92,7 @@
 									</div>
 									<div class="col-sm-4 price-label border-right">
 										<p>Цена в [[ result.price.converted_price.currency ]]:</p>
-										<strike v-if="result.metadata.discount">[[ result.price.discount_converted_price.amount]] [[ result.price.discount_converted_price.currency]]</strike>&nbsp;<span><b v-if="result.metadata.discount">[[ result.price.converted_price.amount ]] [[ result.price.converted_price.currency ]]</b></span>
+										<strike v-if="result.metadata.discount">[[ result.price.discount_converted_price.amount]] [[ result.price.discount_converted_price.currency]]</strike><span>[[ result.price.converted_price.amount ]] [[ result.price.converted_price.currency ]]</span>
 									</div>
 									<div class="col-sm-4 price-label profit-label">
 										<p>Выгода в твою пользу:</p>
