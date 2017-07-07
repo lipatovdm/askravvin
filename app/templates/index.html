@@ -85,22 +85,31 @@
 									<h3>[[ result.metadata.title ]]</h3>
 									
 								</div>
-								<div class="row">
+								<div class="row price-info">
 									<div class="col-sm-4 price-label border-right">
 										<p>Цена в магазине:</p>
-										<h2>[[ result.price.current_price.amount ]] [[ result.price.current_price.currency ]]</h2>
+										<strike v-if="result.metadata.discount">[[ result.price.discount_price.amount]] [[ result.price.discount_price.currency]]</strike>
+										<span>[[ result.price.current_price.amount ]] [[ result.price.current_price.currency ]]</span>
 									</div>
 									<div class="col-sm-4 price-label border-right">
 										<p>Цена в [[ result.price.converted_price.currency ]]:</p>
-										<h2>[[ result.price.converted_price.amount ]] [[ result.price.converted_price.currency ]]</h2>
+										<strike v-if="result.metadata.discount">[[ result.price.discount_converted_price.amount]] [[ result.price.discount_converted_price.currency]]</strike>&nbsp;<span><b v-if="result.metadata.discount">[[ result.price.converted_price.amount ]] [[ result.price.converted_price.currency ]]</b></span>
 									</div>
 									<div class="col-sm-4 price-label profit-label">
 										<p>Выгода в твою пользу:</p>
-										<h2>[[ result.price.profit_price.amount ]] [[ result.price.profit_price.currency ]]</h2>
+										<span>[[ result.price.profit_price.amount ]] [[ result.price.profit_price.currency ]]</span>
 									</div>
 									
 								</div>
+								
 							</div>
+							<div class="row opt-info">
+									<div class="col-sm-12">
+										<span class="label label-primary">[[ result.metadata.platform ]]</span>
+										<span class="label label-default">ID: [[ result.metadata.id ]]</span>
+										<span class="label label-danger" v-if="result.metadata.discount">% скидка</span>
+									</div>
+								</div>
 						</div>
 						<img src="/static/img/moisha.png" alt="" class="moisha" v-if="result.price.profit_price.amount > 0">
 					</div>
@@ -121,7 +130,7 @@
 			el: '#app',
 			delimiters: ["[[", "]]"],
 			data: {
-				results: [],
+				results: [ {"metadata": {"discount": true, "id": "CUSA03365_00", "img": "https://apollo2.dl.playstation.net/cdn/EP0700/CUSA03365_00/aZEGH0O5EXBhQj1h0Xn7yfUYDdQOdovA.png", "platform": "PS4", "title": "DARK SOULS™ III - Deluxe Edition"}, "price": {"discount_price": {"currency": "RUB", "amount": 4399.0}, "profit_price": {"currency": "KZT", "amount": -686.0}, "discount_converted_price": {"currency": "KZT", "amount": 23634.0}, "current_price": {"currency": "RUB", "amount": 2199.0}, "converted_price": {"currency": "KZT", "amount": 11814.0}}}],
 				loading: false,
 				scrollable: true,
 				tutorial: true,

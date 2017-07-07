@@ -66,6 +66,7 @@ def fetch_game():
 			game_item['price'] = {}
 			game_item['price']['current_price'] = {}
 			game_item['price']['discount_price'] = {}
+			game_item['price']['discount_converted_price'] = {}
 			game_item['price']['converted_price'] = {}
 			game_item['price']['profit_price'] = {}
 			
@@ -94,8 +95,11 @@ def fetch_game():
 
 			#DISCOUNT
 			if discount:
-				game_item['price']['discount_price']['old_amount'] = round(float(game_card.find('span', class_='old').text.split(' ')[0]),2)
+				game_item['price']['discount_price']['amount'] = round(float(game_card.find('span', class_='old').text.split(' ')[0]),2)
 				game_item['price']['discount_price']['currency'] = item_currency
+
+				game_item['price']['discount_converted_price']['amount'] = round(get_currency_rate(item_currency, new_currency, game_item['price']['discount_price']['amount']),0)
+				game_item['price']['discount_converted_price']['currency'] = new_currency
 			
             #PRICE END
 			results.append(game_item)
