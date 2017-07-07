@@ -5,6 +5,7 @@
 		<div class="row search-sect-wrapper">
 			<div class="col-sm-12 logo-wrapper">
 				<img src="/static/img/jew-logo.png" alt="" class="logo">
+				
 			</div>		
 			<div class="form-wrapper col-sm-8 col-sm-offset-2">
 				<form action="" id="query-form" onsubmit="event.preventDefault();">
@@ -87,8 +88,12 @@
 				</div>
 			</div>
 			<div class="col-sm-12 loader" v-if="loading">
-				<span>Загрузка...</span>
+				<div class="loader-text-wrapper">
+					<span>Загрузка...</span>
+					<p>[[ loadingText ]]</p>
+				</div>
 			</div>
+			
 		  </div>
 		  
 	</div>
@@ -100,6 +105,7 @@
 				results: [],
 				loading: false,
 				scrollable: true,
+				loadingText: '',
 				params: {
 					region: 'ru',
 					platform: 'ps4',
@@ -132,7 +138,26 @@
 								
 					        }
 					});
+				},
+				loadingSnippets: function(){
+					var self = this
+					var textList = [
+						'Звоню другу чтобы узнать цену',
+						'Ищу в Google', 
+						'Ставлю лайки под фото с котятами', 
+						'Завариваю чаек, тебе тоже советую',
+						'Устанавливаю браузер Амиго',
+						'Почесался за ушком',
+						'Тебе точно нужно это знать?',
+						'Что мне таки за это будет?']
+					setInterval(function(){
+						self.loadingText = textList[Math.floor(Math.random() * textList.length)];		
+					}, 1500);
+						
 				}
+			},
+			mounted(){
+				this.loadingSnippets();
 			}
 		})
 	</script>

@@ -27,15 +27,25 @@
 			z-index: 100;
 
 		}
-		.loader > span{
-			font-size: 32px;
+		.loader > .loader-text-wrapper{
+			display: block;
+			height: auto;
+			overflow: auto;
+			position: relative;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+		.loader > .loader-text-wrapper > span, p{
 			color: #fff;
 			font-weight: bold;
 			font-family: 'Comfortaa';
-			position: relative;
-			top: 50%;
-			display: block;
-			transform: translateY(-50%);
+		}
+		.loader > .loader-text-wrapper > span{
+			font-size: 32px;
+			display: block
+		}
+		.loader> .loader-text-wrapper > p{
+			font-size: 14px;
 		}
 		.logo{
 			max-height: 80px;
