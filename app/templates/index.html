@@ -49,12 +49,31 @@
 		</div>
 		<div class="clear"></div>
 		<div class="row result-sect-wrapper" v-bind:class="{ scroll: scrollable}">
+				<div class="col-sm-8 col-sm-offset-2 tutorial-wrapper" v-if="tutorial">
+					<div class="col-sm-4">
+						<h3>Шаг 1</h3>
+						<span>Нашел игру в соседнем магазине?</span>
+					</div>
+					<div class="col-sm-4 tutorial-bordered">
+						<h3>Шаг 2</h3>
+						<span>Укажи как называется игра и сколько она стоит</span>
+					</div>
+					<div class="col-sm-4">
+						<h3>Шаг 3</h3>
+						<span>Узнай - стоит ли покупать за ту цену, которую ты указал</span>
+					</div>
+					<div class="row tutorial-footer">
+						<a href="https://money.yandex.ru/to/410014058034141">Поддержать проект</a>
+						<a href="mailto:deniel1515@gmail.com">Отправить отзыв</a>
+					</div>
+				</div>
 			<div class="donate-wrapper" v-if="results.length > 0">
 					<p>Поддержать проект рублем:</p>
 					<iframe src="https://money.yandex.ru/quickpay/button-widget?targets=%D0%9F%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82&default-sum=100&button-text=14&yamoney-payment-type=on&button-size=s&button-color=orange&successURL=&quickpay=small&account=410014058034141&" width="127" height="25" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
 					<iframe src="https://money.yandex.ru/quickpay/button-widget?targets=%D0%9F%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82&default-sum=100&button-text=14&any-card-payment-type=on&button-size=s&button-color=orange&successURL=&quickpay=small&account=410014058034141&" width="127" height="25" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
 			</div>
-				<div class="col-sm-8 col-sm-offset-2">				
+				<div class="col-sm-8 col-sm-offset-2">
+					
 				<div v-for="result in results" class="row game-card--wrapper">
 					<div class="col-sm-12">
 						<div class="col-sm-12 game-card--item">
@@ -105,6 +124,7 @@
 				results: [],
 				loading: false,
 				scrollable: true,
+				tutorial: true,
 				loadingText: '',
 				params: {
 					region: 'ru',
@@ -121,6 +141,7 @@
 					var link = self.baseUrl
 					this.loading = true
 					this.scrollable = false
+					this.tutorial = false
 					form = $('#query-form').serialize();
 					console.log(form);						
 					$.ajax({
